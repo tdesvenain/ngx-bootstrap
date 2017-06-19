@@ -197,6 +197,7 @@ export class TimepickerComponent implements ControlValueAccessor, TimepickerCont
   onChange: any = Function.prototype;
   onTouched: any = Function.prototype;
 
+
   constructor(_config: TimepickerConfig,
               _cd: ChangeDetectorRef,
               private _store: TimepickerStore,
