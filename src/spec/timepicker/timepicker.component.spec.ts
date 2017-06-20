@@ -5,7 +5,7 @@ import { TimepickerConfig } from '../../timepicker/timepicker.config';
 import { TimepickerActions } from '../../timepicker/reducer/timepicker.actions';
 import { Data } from '@angular/router';
 
-fdescribe('Component: timepicker', () => {
+describe('Component: timepicker', () => {
   let fixture: ComponentFixture<TimepickerComponent>;
   let context: TimepickerComponent;
   let nativeEl: any;
