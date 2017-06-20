@@ -33,20 +33,20 @@ describe('Component: timepicker', () => {
     context.wheelSign(new Event('customWheel'));
   });
 
-  it('should canBeChanged wheel', () => {
-    context.mousewheel = false;
-    context.canBeChanged('wheel');
-  });
-
-  it('should canBeChanged key', () => {
-    context.arrowkeys = false;
-    context.canBeChanged('key');
-  });
-
-  it('should canBeChanged true', () => {
-    context.readonlyInput = true;
-    context.canBeChanged();
-  });
+  // it('should canBeChanged wheel', () => {
+  //   context.mousewheel = false;
+  //   context.canBeChanged('wheel');
+  // });
+  //
+  // it('should canBeChanged key', () => {
+  //   context.arrowkeys = false;
+  //   context.canBeChanged('key');
+  // });
+  //
+  // it('should canBeChanged true', () => {
+  //   context.readonlyInput = true;
+  //   context.canBeChanged();
+  // });
 
   it('should changeHours', () => {
     context.changeHours(3);

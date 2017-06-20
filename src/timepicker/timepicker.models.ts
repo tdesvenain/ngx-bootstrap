@@ -15,11 +15,28 @@ export interface TimepickerControls {
 }
 
 export interface TimepickerComponentState {
-  value: Date;
   min: Date;
   max: Date;
+
   hourStep: number;
   minuteStep: number;
   secondsStep: number;
+
+  readonlyInput: boolean;
+
+  mousewheel: boolean;
+  arrowkeys: boolean;
+
+  showSpinners: boolean;
+  showMeridian: boolean;
   showSeconds: boolean;
+
+  meridians: string[];
+}
+
+export type TimeChangeSource = 'wheel' | 'key' | '';
+
+export interface TimeChangeEvent {
+  step: number;
+  source: TimeChangeSource;
 }
