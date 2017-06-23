@@ -1,7 +1,7 @@
-export interface TimeUnit {
-  hour?: number;
-  minute?: number;
-  seconds?: number;
+export interface Time {
+  hour?: string | number;
+  minute?: string | number;
+  seconds?: string | number;
 }
 
 export interface TimepickerControls {

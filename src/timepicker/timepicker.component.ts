@@ -69,14 +69,12 @@ export const TIMEPICKER_CONTROL_VALUE_ACCESSOR: any = {
                  class="form-control text-center"
                  placeholder="HH"
                  maxlength="2"
-                 #input_hours
                  [readonly]="readonlyInput"
                  [value]="hours"
                  (wheel)="prevDef($event);changeHours(hourStep * wheelSign($event), 'wheel')"
                  (keydown.ArrowUp)="changeHours(hourStep, 'key')"
                  (keydown.ArrowDown)="changeHours(-hourStep, 'key')"
-                 (keydown.Enter)="updateHours(input_hours.value)"
-                 (change)="updateHours(input_hours.value)"></td>
+                 (change)="updateHours($event.target.value)"></td>
         <!-- divider -->
         <td>&nbsp;:&nbsp;</td>
         <!-- minutes -->
@@ -85,13 +83,12 @@ export const TIMEPICKER_CONTROL_VALUE_ACCESSOR: any = {
                  class="form-control text-center"
                  placeholder="MM"
                  maxlength="2"
-                 #input_minutes
                  [readonly]="readonlyInput"
                  [value]="minutes"
                  (wheel)="prevDef($event);changeMinutes(minuteStep * wheelSign($event), 'wheel')"
                  (keydown.ArrowUp)="changeMinutes(minuteStep, 'key')"
                  (keydown.ArrowDown)="changeMinutes(-minuteStep, 'key')"
-                 (change)="updateMinutes(input_minutes.value)">
+                 (change)="updateMinutes($event.target.value)">
         </td>
         <!-- divider -->
         <td *ngIf="showSeconds">&nbsp;:&nbsp;</td>
@@ -101,13 +98,12 @@ export const TIMEPICKER_CONTROL_VALUE_ACCESSOR: any = {
                  class="form-control text-center"
                  placeholder="SS"
                  maxlength="2"
-                 #input_seconds
                  [readonly]="readonlyInput"
                  [value]="seconds"
                  (wheel)="prevDef($event);changeSeconds(secondsStep * wheelSign($event), 'wheel')"
                  (keydown.ArrowUp)="changeSeconds(secondsStep, 'key')"
                  (keydown.ArrowDown)="changeSeconds(-secondsStep, 'key')"
-                 (change)="updateSeconds(input_seconds.value)">
+                 (change)="updateSeconds($event.target.value)">
         </td>
         <!-- space between -->
         <td>&nbsp;&nbsp;&nbsp;</td>
@@ -255,58 +251,29 @@ export class TimepickerComponent implements ControlValueAccessor, TimepickerComp
     this._store.dispatch(this._timepickerActions.changeSeconds({step, source}));
   }
 
-  updateHours(hour: string): void {
-    const dex = 10;
-    const _hoursPerDay = 24;
-    const _newHour = parseInt(hour, dex);
-    this.hours = hour;
-
-    if (isNaN(_newHour) || _newHour < 0 || _newHour > _hoursPerDay) {
-      this.hours = '';
-      this.invalidHours = true;
-      this.onChange(null);
-
-      return;
-    }
-    this.invalidHours = false;
-    this._store.dispatch(this._timepickerActions
-      .setTimeUnit({hour: _newHour % _hoursPerDay}));
+  updateHours(hours: string): void {
+    this.hours = hours;
+    this._updateTime();
   }
 
-  updateMinutes(minute: string) {
-    const dex = 10;
-    const _minutesPerHour = 60;
-    const _newMinute = parseInt(minute, dex);
-
-    if (isNaN(_newMinute) || _newMinute < 0 || _newMinute > _minutesPerHour) {
-      this.minutes = '';
-      this.invalidMinutes = true;
-      this.onChange(null);
-
-      return;
-    }
-
-    this.invalidMinutes = false;
-    console.log(this.hours);
-    this._store.dispatch(this._timepickerActions
-      .setTimeUnit({minute: _newMinute % _minutesPerHour}));
+  updateMinutes(minutes: string) {
+    this.minutes = minutes;
+    this._updateTime();
   }
 
   updateSeconds(seconds: string) {
-    const dex = 10;
-    const _secondsPerMinute = 60;
-    const _newSeconds = parseInt(seconds, dex);
+    this.seconds = seconds;
+    this._updateTime();
+  }
 
-    if (isNaN(_newSeconds) || _newSeconds < 0 || _newSeconds > _secondsPerMinute) {
-      this.minutes = '';
-      this.invalidMinutes = true;
-
-      return;
-    }
-
-    this.invalidMinutes = false;
+  _updateTime() {
+    // const isPM = this.showMeridian && this.meridian === this.meridians[1];
     this._store.dispatch(this._timepickerActions
-      .setTimeUnit({seconds: _newSeconds % _secondsPerMinute}));
+      .setTime({
+        hour: this.hours,
+        minute: this.minutes,
+        seconds: this.seconds
+      }));
   }
 
   toggleMeridian(): void {
